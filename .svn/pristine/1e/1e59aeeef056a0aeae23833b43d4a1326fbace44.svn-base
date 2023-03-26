@@ -11,8 +11,6 @@ public class DrawingCanvas extends JComponent {
     private Cloud c3;
     private Sun sun;
     private Mountain mountain;
-    private Ground ground;
-    private House house;
 
     public DrawingCanvas(int width, int height) {
         this.width = width;
@@ -23,8 +21,6 @@ public class DrawingCanvas extends JComponent {
         c3 = new Cloud(490,50,85,Color.WHITE);
         sun = new Sun(850,5,150,Color.YELLOW);
         mountain = new Mountain(width,height,new Color(0, 40, 0));
-        ground = new Ground(width,height);
-        house = new House(700,500,150,new Color(100,100,40));
     }
 
     @Override
@@ -57,8 +53,6 @@ public class DrawingCanvas extends JComponent {
         c3.drawCloud(g2d);
         sun.drawSun(g2d);
         mountain.drawMountain(g2d);
-        ground.drawGround(g2d);
-        house.drawHouse(g2d);
 
 
 
