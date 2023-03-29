@@ -13,11 +13,7 @@ public class DrawingCanvas extends JComponent {
     private Mountain mountain;
     private Ground ground;
     private House house;
-    private Tree tree;
-    private PineTree pineTree1;
-    private PineTree pineTree2;
-    private PineTree pineTree3;
-    private PineTree pineTree4;
+
     public DrawingCanvas(int width, int height) {
         this.width = width;
         this.height = height;
@@ -28,13 +24,7 @@ public class DrawingCanvas extends JComponent {
         sun = new Sun(850,5,150,Color.YELLOW);
         mountain = new Mountain(width,height,new Color(0, 40, 0));
         ground = new Ground(width,height);
-        house = new House(700,500,150,Color.orange);
-        tree = new Tree(120,300,700);
-        pineTree1 = new PineTree(50,500,400);
-        pineTree2 = new PineTree(50,450,420);
-        pineTree3 = new PineTree(50,400,350);
-        pineTree4 = new PineTree(50,350,380);
-        
+        house = new House(700,500,150,new Color(100,100,40));
     }
 
     @Override
@@ -69,11 +59,7 @@ public class DrawingCanvas extends JComponent {
         mountain.drawMountain(g2d);
         ground.drawGround(g2d);
         house.drawHouse(g2d);
-        tree.drawTree(g2d);
-        pineTree1.drawPineTree(g2d);
-        pineTree2.drawPineTree(g2d);
-        pineTree3.drawPineTree(g2d);
-        pineTree4.drawPineTree(g2d);
+
 
 
 
