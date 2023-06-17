@@ -28,7 +28,7 @@ public class DrawingCanvas extends JComponent {
         sun = new Sun(850,5,150,Color.YELLOW);
         mountain = new Mountain(width,height,new Color(0, 40, 0));
         ground = new Ground(width,height);
-        house = new House(700,500,150,new Color(115, 107, 75));
+        house = new House(700,500,150,Color.orange);
         tree = new Tree(120,300,700);
         pineTree1 = new PineTree(50,500,400);
         pineTree2 = new PineTree(50,450,420);

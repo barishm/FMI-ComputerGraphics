@@ -55,8 +55,5 @@ public class Sun {
 
         g2d.draw(ray);
 
-
-
-
     }
 }

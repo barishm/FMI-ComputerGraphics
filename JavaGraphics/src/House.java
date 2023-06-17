@@ -35,8 +35,5 @@ public class House {
         g2d.fill(r);
 
         g2d.draw(r);
-
-
-
     }
 }
