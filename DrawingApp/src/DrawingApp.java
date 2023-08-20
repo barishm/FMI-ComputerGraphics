@@ -4,16 +4,28 @@ import UI.ColorButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class DrawingApp {
+    public static void main(String[] args) {
 
-    JButton clearBtn, blackBtn, blueBtn, greenBtn, redBtn, magentaBtn,
-            incStroke,decStroke,penBtn,lineBtn,circleBtn,triangleBtn,rectBtn;
-    JLabel strokeLabel,strokeText;
-    int strokeWidth = 1;
+        new DrawingApp().show();
+    }
+
+    JButton clearBtn, blackBtn, blueBtn, greenBtn, redBtn, magentaBtn;
+    JRadioButton fillBn,penBn,lineBn,circleBn,triangleBn,rectBn;
+    JSlider slider;
     DrawArea drawArea;
+    ChangeListener changeListener = new ChangeListener() {
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            if(e.getSource() == slider){
+                drawArea.setStroke(slider.getValue());
+            }
+        }
+    };
     ActionListener actionListener = new ActionListener() {
 
         public void actionPerformed(ActionEvent e) {
@@ -29,24 +41,16 @@ public class DrawingApp {
                 drawArea.red();
             } else if (e.getSource() == magentaBtn) {
                 drawArea.magenta();
-            } else if(e.getSource() == incStroke){
-                strokeWidth++;
-                updateStrokeLabel();
-                drawArea.incStroke(strokeWidth);
-            } else if(e.getSource() == decStroke && strokeWidth > 1){
-                strokeWidth--;
-                updateStrokeLabel();
-                drawArea.decStroke(strokeWidth);
-            } else if (e.getSource() == penBtn) {
-                drawArea.setTool(penBtn.getText());
-            } else if (e.getSource() == lineBtn) {
-                drawArea.setTool(lineBtn.getText());
-            } else if (e.getSource() == circleBtn) {
+            } else if (e.getSource() == penBn) {
+                drawArea.setTool(penBn.getText());
+            } else if (e.getSource() == lineBn) {
+                drawArea.setTool(lineBn.getText());
+            } else if (e.getSource() == circleBn) {
                 drawArea.drawCircle();
-            } else if (e.getSource() == triangleBtn) {
+            } else if (e.getSource() == triangleBn) {
                 drawArea.drawTriangle();
-            } else if (e.getSource() == rectBtn) {
-                drawArea.setTool(rectBtn.getText());
+            } else if (e.getSource() == rectBn) {
+                drawArea.setTool(rectBn.getText());
             }
         }
     };
@@ -65,19 +69,16 @@ public class DrawingApp {
         JPanel colorsPanel = new JPanel();
         createColorsPanel(colorsPanel);
 
-        JPanel toolsPanel = new JPanel();
-        createToolsPanel(toolsPanel);
 
         JPanel othersPanel = new JPanel();
         createOthersPanel(othersPanel);
 
-        JPanel objectsPanel = new JPanel();
-        createObjectsPanel(objectsPanel);
+        JPanel toolsPanel = new JPanel();
+        createToolsPanel(toolsPanel);
 
 
-        controls.add(toolsPanel, BorderLayout.WEST);
         controls.add(othersPanel, BorderLayout.EAST);
-        controls.add(objectsPanel,BorderLayout.CENTER);
+        controls.add(toolsPanel,BorderLayout.CENTER);
 
         content.add(controls, BorderLayout.NORTH);
         content.add(colorsPanel, BorderLayout.WEST);
@@ -87,18 +88,48 @@ public class DrawingApp {
         frame.setVisible(true);
     }
 
-    private void createObjectsPanel(JPanel objectsPanel) {
-        objectsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        circleBtn = new JButton("Circle");
-        circleBtn.addActionListener(actionListener);
-        triangleBtn = new JButton("Triangle");
-        triangleBtn.addActionListener(actionListener);
-        rectBtn = new JButton("Rectangle");
-        rectBtn.addActionListener(actionListener);
-        objectsPanel.add(circleBtn);
-        objectsPanel.add(triangleBtn);
-        objectsPanel.add(rectBtn);
+    private void createToolsPanel(JPanel objectsPanel) {
+        objectsPanel.setLayout(new BorderLayout());
+        JPanel topButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel bottomButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
+        slider = new JSlider(0,20,2);
+        slider.setPaintTicks(true);
+        slider.setMinorTickSpacing(1);
+        slider.setPaintTrack(true);
+        slider.setMajorTickSpacing(2);
+        slider.setPaintLabels(true);
+        slider.addChangeListener(changeListener);
+        fillBn = new JRadioButton("Fill");
+        fillBn.setForeground(Color.red);
+        penBn = new JRadioButton("Pen",true);
+        lineBn = new JRadioButton("Line");
+        rectBn = new JRadioButton("Rectangle");
+        circleBn = new JRadioButton("Circle");
+        triangleBn = new JRadioButton("Triangle");
+        fillBn.addActionListener(actionListener);
+        penBn.addActionListener(actionListener);
+        lineBn.addActionListener(actionListener);
+        rectBn.addActionListener(actionListener);
+        circleBn.addActionListener(actionListener);
+        triangleBn.addActionListener(actionListener);
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(penBn);
+        buttonGroup.add(lineBn);
+        buttonGroup.add(rectBn);
+        buttonGroup.add(circleBn);
+        buttonGroup.add(triangleBn);
+
+        topButtonsPanel.add(fillBn);
+        topButtonsPanel.add(penBn);
+        topButtonsPanel.add(lineBn);
+
+        bottomButtonsPanel.add(slider);
+        topButtonsPanel.add(circleBn);
+        topButtonsPanel.add(triangleBn);
+        bottomButtonsPanel.add(rectBn);
+        objectsPanel.add(topButtonsPanel, BorderLayout.NORTH);
+        objectsPanel.add(bottomButtonsPanel, BorderLayout.SOUTH);
     }
 
     private void createOthersPanel(JPanel othersPanel) {
@@ -109,26 +140,6 @@ public class DrawingApp {
 
     }
 
-    private void createToolsPanel(JPanel toolsPanel) {
-        toolsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        incStroke = new JButton("+");
-        incStroke.addActionListener(actionListener);
-        decStroke = new JButton("-");
-        decStroke.addActionListener(actionListener);
-        strokeLabel = new JLabel("1");
-        strokeText = new JLabel("Width:");
-        penBtn = new JButton("Pen");
-        penBtn.addActionListener(actionListener);
-        lineBtn = new JButton("Line");
-        lineBtn.addActionListener(actionListener);
-        toolsPanel.add(penBtn);
-        toolsPanel.add(lineBtn);
-        toolsPanel.add(incStroke);
-        toolsPanel.add(strokeText);
-        toolsPanel.add(strokeLabel);
-        toolsPanel.add(decStroke);
-
-    }
 
     private void createColorsPanel(JPanel colorsPanel) {
         colorsPanel.setLayout(new BoxLayout(colorsPanel, BoxLayout.Y_AXIS));
@@ -148,9 +159,4 @@ public class DrawingApp {
         colorsPanel.add(redBtn);
         colorsPanel.add(magentaBtn);
     }
-
-    private void updateStrokeLabel() {
-        strokeLabel.setText(String.valueOf(strokeWidth));
-    }
-
 }

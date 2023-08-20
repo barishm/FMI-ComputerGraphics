@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 
 
@@ -11,12 +10,11 @@ public class DrawArea extends JComponent {
 
     private Image image;
     private Graphics2D g2;
-    private int currentX, currentY, oldX, oldY,stroke;
-    private String tool = "Rectangle";
-    private Color color;
+    private int currentX, currentY, oldX, oldY,stroke = 2;
+    private String tool = "Pen";
+    private Color color = Color.BLACK;
     private boolean drawingLine = false;
     private boolean drawingRectangle = false;
-    private Rectangle2D.Double r;
 
 
 
@@ -57,6 +55,9 @@ public class DrawArea extends JComponent {
         });
         addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent e) {
+                g2.setStroke(new BasicStroke(stroke, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER));
+                currentX = e.getX();
+                currentY = e.getY();
                 if ("Line".equals(tool)) {
                     if (g2 != null) {
                         g2.drawLine(oldX, oldY, currentX, currentY);
@@ -66,8 +67,7 @@ public class DrawArea extends JComponent {
                 }
                 if("Rectangle".equals(tool)){
                     if(g2 != null){
-                        r = new Rectangle2D.Double(oldX,oldY,currentX - oldX,currentY - oldY);
-                        g2.draw(r);
+                        g2.drawRect(oldX,oldY,currentX - oldX,currentY - oldY);
                         repaint();
                         drawingRectangle = false;
                     }
@@ -77,32 +77,30 @@ public class DrawArea extends JComponent {
     }
 
     protected void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(stroke, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER));
-        g2d.setPaint(color);
+        Graphics2D tempG = (Graphics2D) g;
+        tempG.setStroke(new BasicStroke(stroke, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER));
+        tempG.setPaint(color);
         if (image == null) {
             image = createImage(getSize().width, getSize().height);
             g2 = (Graphics2D) image.getGraphics();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             clear();
         }
-        g2d.drawImage(image, 0, 0, null);
+        tempG.drawImage(image, 0, 0, null);
         if(drawingLine){
-            g2d.drawLine(oldX,oldY,currentX,currentY);
+            tempG.drawLine(oldX,oldY,currentX,currentY);
         }
         if(drawingRectangle){
             if(oldX < currentX && oldY < currentY){
-                Rectangle2D.Double r = new Rectangle2D.Double(oldX,oldY,currentX - oldX,currentY - oldY);
-                g2d.draw(r);
+                tempG.drawRect(oldX,oldY,currentX - oldX,currentY - oldY);
             }
-
         }
     }
 
     public void clear() {
         g2.setPaint(Color.white);
         g2.fillRect(0, 0, getSize().width, getSize().height);
-        g2.setPaint(Color.black);
+        g2.setPaint(color);
         drawingLine = false;
         drawingRectangle = false;
         repaint();
@@ -128,14 +126,6 @@ public class DrawArea extends JComponent {
         color = Color.blue;
         g2.setPaint(color);
     }
-    public void incStroke(int strokeWidth) {
-        stroke = strokeWidth;
-        g2.setStroke(new BasicStroke(stroke, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER));
-    }
-    public void decStroke(int strokeWidth) {
-        stroke = strokeWidth;
-        g2.setStroke(new BasicStroke(stroke, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER));
-    }
     public void setTool(String name) {
         tool = name;
     }
@@ -146,7 +136,8 @@ public class DrawArea extends JComponent {
     public void drawTriangle() {
     }
 
-    public void drawRectangle() {
-
+    public void setStroke(int value) {
+        stroke = value;
+        g2.setStroke(new BasicStroke(stroke, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER));
     }
 }
