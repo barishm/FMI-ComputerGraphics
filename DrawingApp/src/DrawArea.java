@@ -105,35 +105,13 @@ public class DrawArea extends JComponent {
         drawingRectangle = false;
         repaint();
     }
+    public void setColor(Color colour){
+        color = colour;
+        g2.setColor(color);
+    }
 
-    public void red() {
-        color = Color.red;
-        g2.setPaint(color);
-    }
-    public void black() {
-        color = Color.BLACK;
-        g2.setPaint(color);
-    }
-    public void magenta() {
-        color = Color.magenta;
-        g2.setPaint(color);
-    }
-    public void green() {
-        color = Color.green;
-        g2.setPaint(color);
-    }
-    public void blue() {
-        color = Color.blue;
-        g2.setPaint(color);
-    }
     public void setTool(String name) {
         tool = name;
-    }
-
-    public void drawCircle() {
-    }
-
-    public void drawTriangle() {
     }
 
     public void setStroke(int value) {

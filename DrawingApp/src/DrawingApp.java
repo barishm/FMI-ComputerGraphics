@@ -14,9 +14,11 @@ public class DrawingApp {
         new DrawingApp().show();
     }
 
-    JButton clearBtn, blackBtn, blueBtn, greenBtn, redBtn, magentaBtn;
-    JRadioButton fillBn,penBn,lineBn,circleBn,triangleBn,rectBn;
+    JButton clearBtn, saveBtn, blackBtn, blueBtn, greenBtn, redBtn, customBtn;
+    JRadioButton fillBn,penBn,lineBn,circleBn,triangleBn, rightTriangleBn, rectBn, pentagonBn, hexagonBn, houseBn, zadBn;
     JSlider slider;
+    JColorChooser jColorChooser;
+    Color color;
     DrawArea drawArea;
     ChangeListener changeListener = new ChangeListener() {
         @Override
@@ -31,16 +33,20 @@ public class DrawingApp {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == clearBtn) {
                 drawArea.clear();
+            } else if (e.getSource() == saveBtn) {
+                System.out.println("TODO");
+            } else if (e.getSource() == customBtn) {
+                jColorChooser = new JColorChooser();
+                color = JColorChooser.showDialog(null,"Pick a color",Color.black);
+                drawArea.setColor(color);
             } else if (e.getSource() == blackBtn) {
-                drawArea.black();
+                drawArea.setColor(Color.BLACK);
             } else if (e.getSource() == blueBtn) {
-                drawArea.blue();
+                drawArea.setColor(Color.blue);
             } else if (e.getSource() == greenBtn) {
-                drawArea.green();
+                drawArea.setColor(Color.green);
             } else if (e.getSource() == redBtn) {
-                drawArea.red();
-            } else if (e.getSource() == magentaBtn) {
-                drawArea.magenta();
+                drawArea.setColor(Color.red);
             } else if (e.getSource() == penBn) {
                 drawArea.setTool(penBn.getText());
             } else if (e.getSource() == lineBn) {
@@ -79,19 +85,19 @@ public class DrawingApp {
 
         controls.add(othersPanel, BorderLayout.EAST);
         controls.add(toolsPanel,BorderLayout.CENTER);
+        controls.add(colorsPanel,BorderLayout.WEST);
 
         content.add(controls, BorderLayout.NORTH);
-        content.add(colorsPanel, BorderLayout.WEST);
 
         frame.setSize(1024, 768);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
-    private void createToolsPanel(JPanel objectsPanel) {
-        objectsPanel.setLayout(new BorderLayout());
-        JPanel topButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JPanel bottomButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    private void createToolsPanel(JPanel toolsPanel) {
+        toolsPanel.setLayout(new BorderLayout());
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         slider = new JSlider(0,20,2);
         slider.setPaintTicks(true);
@@ -107,6 +113,11 @@ public class DrawingApp {
         rectBn = new JRadioButton("Rectangle");
         circleBn = new JRadioButton("Circle");
         triangleBn = new JRadioButton("Triangle");
+        rightTriangleBn = new JRadioButton("Right Triangle");
+        pentagonBn = new JRadioButton("Pentagon");
+        hexagonBn = new JRadioButton("Hexagon");
+        houseBn = new JRadioButton("House");
+        zadBn = new JRadioButton("Zad");
         fillBn.addActionListener(actionListener);
         penBn.addActionListener(actionListener);
         lineBn.addActionListener(actionListener);
@@ -119,30 +130,57 @@ public class DrawingApp {
         buttonGroup.add(rectBn);
         buttonGroup.add(circleBn);
         buttonGroup.add(triangleBn);
+        buttonGroup.add(rightTriangleBn);
+        buttonGroup.add(pentagonBn);
+        buttonGroup.add(hexagonBn);
+        buttonGroup.add(houseBn);
+        buttonGroup.add(zadBn);
 
-        topButtonsPanel.add(fillBn);
-        topButtonsPanel.add(penBn);
-        topButtonsPanel.add(lineBn);
+        topPanel.add(fillBn);
+        topPanel.add(penBn);
+        topPanel.add(lineBn);
+        topPanel.add(circleBn);
+        topPanel.add(triangleBn);
+        topPanel.add(rightTriangleBn);
+        topPanel.add(zadBn);
 
-        bottomButtonsPanel.add(slider);
-        topButtonsPanel.add(circleBn);
-        topButtonsPanel.add(triangleBn);
-        bottomButtonsPanel.add(rectBn);
-        objectsPanel.add(topButtonsPanel, BorderLayout.NORTH);
-        objectsPanel.add(bottomButtonsPanel, BorderLayout.SOUTH);
+        bottomPanel.add(slider);
+        bottomPanel.add(rectBn);
+        bottomPanel.add(pentagonBn);
+        bottomPanel.add(hexagonBn);
+        bottomPanel.add(houseBn);
+
+
+        toolsPanel.add(topPanel, BorderLayout.NORTH);
+        toolsPanel.add(bottomPanel, BorderLayout.SOUTH);
     }
 
     private void createOthersPanel(JPanel othersPanel) {
-        othersPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        othersPanel.setLayout(new BorderLayout());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+
         clearBtn = new JButton("Clear");
         clearBtn.addActionListener(actionListener);
-        othersPanel.add(clearBtn);
+        saveBtn = new JButton("Save");
+        saveBtn.addActionListener(actionListener);
 
+        buttonPanel.add(Box.createVerticalStrut(8));
+        buttonPanel.add(saveBtn);
+        buttonPanel.add(Box.createVerticalStrut(13));
+        buttonPanel.add(clearBtn);
+        buttonPanel.add(Box.createVerticalStrut(2));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        othersPanel.add(buttonPanel, BorderLayout.CENTER);
     }
 
 
     private void createColorsPanel(JPanel colorsPanel) {
-        colorsPanel.setLayout(new BoxLayout(colorsPanel, BoxLayout.Y_AXIS));
+        colorsPanel.setLayout(new BorderLayout());
+
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
         blackBtn = new ColorButton(Color.BLACK);
         blackBtn.addActionListener(actionListener);
         blueBtn = new ColorButton(Color.BLUE);
@@ -151,12 +189,17 @@ public class DrawingApp {
         greenBtn.addActionListener(actionListener);
         redBtn = new ColorButton(Color.RED);
         redBtn.addActionListener(actionListener);
-        magentaBtn = new ColorButton(Color.MAGENTA);
-        magentaBtn.addActionListener(actionListener);
-        colorsPanel.add(blackBtn);
-        colorsPanel.add(blueBtn);
-        colorsPanel.add(greenBtn);
-        colorsPanel.add(redBtn);
-        colorsPanel.add(magentaBtn);
+        customBtn = new JButton("Custom");
+        customBtn.addActionListener(actionListener);
+
+        topPanel.add(blackBtn);
+        topPanel.add(blueBtn);
+        topPanel.add(greenBtn);
+        topPanel.add(redBtn);
+        bottomPanel.add(customBtn);
+
+        colorsPanel.setBorder(BorderFactory.createEmptyBorder(8, 10, 7, 10));
+        colorsPanel.add(topPanel, BorderLayout.NORTH);
+        colorsPanel.add(bottomPanel, BorderLayout.SOUTH);
     }
 }
