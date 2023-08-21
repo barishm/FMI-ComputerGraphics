@@ -14,7 +14,7 @@ public class DrawingApp {
         new DrawingApp().show();
     }
 
-    JButton clearBtn, saveBtn, blackBtn, blueBtn, greenBtn, redBtn, customBtn;
+    JButton clearBtn, saveBtn, applyBtn, cancelBtn, blackBtn, blueBtn, greenBtn, redBtn, customBtn;
     JRadioButton fillBn,penBn,lineBn,circleBn,triangleBn, rightTriangleBn, rectBn, pentagonBn, hexagonBn, houseBn, zadBn;
     JSlider slider;
     JColorChooser jColorChooser;
@@ -35,6 +35,10 @@ public class DrawingApp {
                 drawArea.clear();
             } else if (e.getSource() == saveBtn) {
                 System.out.println("TODO");
+            } else if (e.getSource() == applyBtn) {
+                drawArea.apply();
+            } else if (e.getSource() == cancelBtn) {
+                drawArea.cancel();
             } else if (e.getSource() == customBtn) {
                 jColorChooser = new JColorChooser();
                 color = JColorChooser.showDialog(null,"Pick a color",Color.black);
@@ -52,9 +56,9 @@ public class DrawingApp {
             } else if (e.getSource() == lineBn) {
                 drawArea.setTool(lineBn.getText());
             } else if (e.getSource() == circleBn) {
-                drawArea.drawCircle();
+                drawArea.setTool(circleBn.getText());
             } else if (e.getSource() == triangleBn) {
-                drawArea.drawTriangle();
+                drawArea.setTool(triangleBn.getText());
             } else if (e.getSource() == rectBn) {
                 drawArea.setTool(rectBn.getText());
             }
@@ -92,6 +96,8 @@ public class DrawingApp {
         frame.setSize(1024, 768);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        frame.requestFocus();
+        drawArea.requestFocus();
     }
 
     private void createToolsPanel(JPanel toolsPanel) {
@@ -157,21 +163,26 @@ public class DrawingApp {
 
     private void createOthersPanel(JPanel othersPanel) {
         othersPanel.setLayout(new BorderLayout());
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         clearBtn = new JButton("Clear");
         clearBtn.addActionListener(actionListener);
         saveBtn = new JButton("Save");
         saveBtn.addActionListener(actionListener);
+        applyBtn = new JButton(" Apply ");
+        applyBtn.addActionListener(actionListener);
+        cancelBtn = new JButton("Cancel");
+        cancelBtn.addActionListener(actionListener);
 
-        buttonPanel.add(Box.createVerticalStrut(8));
-        buttonPanel.add(saveBtn);
-        buttonPanel.add(Box.createVerticalStrut(13));
-        buttonPanel.add(clearBtn);
-        buttonPanel.add(Box.createVerticalStrut(2));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        othersPanel.add(buttonPanel, BorderLayout.CENTER);
+        topPanel.add(applyBtn);
+        topPanel.add(saveBtn);
+        bottomPanel.add(cancelBtn);
+        bottomPanel.add(clearBtn);
+
+        othersPanel.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
+        othersPanel.add(topPanel, BorderLayout.NORTH);
+        othersPanel.add(bottomPanel,BorderLayout.SOUTH);
     }
 
 
@@ -198,7 +209,7 @@ public class DrawingApp {
         topPanel.add(redBtn);
         bottomPanel.add(customBtn);
 
-        colorsPanel.setBorder(BorderFactory.createEmptyBorder(8, 10, 7, 10));
+        colorsPanel.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
         colorsPanel.add(topPanel, BorderLayout.NORTH);
         colorsPanel.add(bottomPanel, BorderLayout.SOUTH);
     }

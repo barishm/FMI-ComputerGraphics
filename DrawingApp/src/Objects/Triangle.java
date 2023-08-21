@@ -1,4 +1,4 @@
-package RdyToUseObjects;
+package Objects;
 
 public class Triangle {
 }
