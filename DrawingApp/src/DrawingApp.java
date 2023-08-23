@@ -14,17 +14,20 @@ public class DrawingApp {
         new DrawingApp().show();
     }
 
-    JButton clearBtn, saveBtn, applyBtn, cancelBtn, blackBtn, blueBtn, greenBtn, redBtn, customBtn;
+    JButton clearBtn, saveBtn, applyBtn, cancelBtn,sizePlusBtn,sizeMinusBtn,rBtn,lBtn, blackBtn, blueBtn, greenBtn, redBtn, customBtn;
     JRadioButton fillBn,penBn,lineBn,circleBn,triangleBn, rightTriangleBn, rectBn, pentagonBn, hexagonBn, houseBn, zadBn;
-    JSlider slider;
+    JSlider strokeSlider, opacitySlider;
     JColorChooser jColorChooser;
     Color color;
     DrawArea drawArea;
     ChangeListener changeListener = new ChangeListener() {
         @Override
         public void stateChanged(ChangeEvent e) {
-            if(e.getSource() == slider){
-                drawArea.setStroke(slider.getValue());
+            if(e.getSource() == strokeSlider){
+                drawArea.setStroke(strokeSlider.getValue());
+            }
+            if (e.getSource() == opacitySlider) {
+                drawArea.setOpacity(opacitySlider.getValue());
             }
         }
     };
@@ -35,6 +38,14 @@ public class DrawingApp {
                 drawArea.clear();
             } else if (e.getSource() == saveBtn) {
                 System.out.println("TODO");
+            } else if (e.getSource() == sizePlusBtn) {
+                drawArea.increaseSize();
+            } else if (e.getSource() == sizeMinusBtn) {
+                drawArea.decreaseSize();
+            } else if (e.getSource() == lBtn) {
+                drawArea.rotateLeft();
+            } else if (e.getSource() == rBtn) {
+                drawArea.rotateRight();
             } else if (e.getSource() == applyBtn) {
                 drawArea.apply();
             } else if (e.getSource() == cancelBtn) {
@@ -61,6 +72,9 @@ public class DrawingApp {
                 drawArea.setTool(triangleBn.getText());
             } else if (e.getSource() == rectBn) {
                 drawArea.setTool(rectBn.getText());
+            }
+            if(e.getSource() == fillBn){
+                drawArea.setFill(fillBn.isSelected());
             }
         }
     };
@@ -93,7 +107,7 @@ public class DrawingApp {
 
         content.add(controls, BorderLayout.NORTH);
 
-        frame.setSize(1024, 768);
+        frame.setSize(1440, 720);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.requestFocus();
@@ -105,15 +119,34 @@ public class DrawingApp {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        slider = new JSlider(0,20,2);
-        slider.setPaintTicks(true);
-        slider.setMinorTickSpacing(1);
-        slider.setPaintTrack(true);
-        slider.setMajorTickSpacing(2);
-        slider.setPaintLabels(true);
-        slider.addChangeListener(changeListener);
+        strokeSlider = new JSlider(0,30,2);
+        strokeSlider.setPaintTicks(true);
+        strokeSlider.setMinorTickSpacing(2);
+        strokeSlider.setPaintTrack(true);
+        strokeSlider.setMajorTickSpacing(4);
+        strokeSlider.setPaintLabels(true);
+        strokeSlider.addChangeListener(changeListener);
+        opacitySlider = new JSlider(0,255,255);
+
+        opacitySlider.setPaintTicks(true);
+        opacitySlider.setMinorTickSpacing(17);
+        opacitySlider.setPaintTrack(true);
+        opacitySlider.setMajorTickSpacing(85);
+        opacitySlider.setPaintLabels(true);
+        opacitySlider.addChangeListener(changeListener);
+
         fillBn = new JRadioButton("Fill");
         fillBn.setForeground(Color.red);
+        Font customFont = fillBn.getFont().deriveFont(Font.BOLD, 14f);
+        fillBn.setFont(customFont);
+        sizePlusBtn = new JButton("+");
+        sizeMinusBtn = new JButton("-");
+        lBtn = new JButton("<<");
+        rBtn = new JButton(">>");
+        applyBtn = new JButton(" Apply ");
+        applyBtn.addActionListener(actionListener);
+        cancelBtn = new JButton("Cancel");
+        cancelBtn.addActionListener(actionListener);
         penBn = new JRadioButton("Pen",true);
         lineBn = new JRadioButton("Line");
         rectBn = new JRadioButton("Rectangle");
@@ -125,6 +158,10 @@ public class DrawingApp {
         houseBn = new JRadioButton("House");
         zadBn = new JRadioButton("Zad");
         fillBn.addActionListener(actionListener);
+        sizePlusBtn.addActionListener(actionListener);
+        sizeMinusBtn.addActionListener(actionListener);
+        lBtn.addActionListener(actionListener);
+        rBtn.addActionListener(actionListener);
         penBn.addActionListener(actionListener);
         lineBn.addActionListener(actionListener);
         rectBn.addActionListener(actionListener);
@@ -142,20 +179,28 @@ public class DrawingApp {
         buttonGroup.add(houseBn);
         buttonGroup.add(zadBn);
 
-        topPanel.add(fillBn);
         topPanel.add(penBn);
         topPanel.add(lineBn);
         topPanel.add(circleBn);
         topPanel.add(triangleBn);
         topPanel.add(rightTriangleBn);
+        topPanel.add(rectBn);
+        topPanel.add(pentagonBn);
+        topPanel.add(hexagonBn);
         topPanel.add(zadBn);
+        topPanel.add(houseBn);
 
-        bottomPanel.add(slider);
-        bottomPanel.add(rectBn);
-        bottomPanel.add(pentagonBn);
-        bottomPanel.add(hexagonBn);
-        bottomPanel.add(houseBn);
-
+        bottomPanel.add(new JLabel("Width:"));
+        bottomPanel.add(strokeSlider);
+        bottomPanel.add(new JLabel("Opacity:"));
+        bottomPanel.add(opacitySlider);
+        bottomPanel.add(fillBn);
+        bottomPanel.add(sizePlusBtn);
+        bottomPanel.add(sizeMinusBtn);
+        bottomPanel.add(lBtn);
+        bottomPanel.add(rBtn);
+        bottomPanel.add(applyBtn);
+        bottomPanel.add(cancelBtn);
 
         toolsPanel.add(topPanel, BorderLayout.NORTH);
         toolsPanel.add(bottomPanel, BorderLayout.SOUTH);
@@ -170,14 +215,9 @@ public class DrawingApp {
         clearBtn.addActionListener(actionListener);
         saveBtn = new JButton("Save");
         saveBtn.addActionListener(actionListener);
-        applyBtn = new JButton(" Apply ");
-        applyBtn.addActionListener(actionListener);
-        cancelBtn = new JButton("Cancel");
-        cancelBtn.addActionListener(actionListener);
 
-        topPanel.add(applyBtn);
+
         topPanel.add(saveBtn);
-        bottomPanel.add(cancelBtn);
         bottomPanel.add(clearBtn);
 
         othersPanel.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
