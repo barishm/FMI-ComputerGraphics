@@ -104,4 +104,38 @@ public class Triangle implements Shape {
         this.Cx += deltaX;
         this.Cy += deltaY;
     }
+
+    public void increaseSize(int resize) {
+        int vectorABx = Bx - Ax;
+        int vectorABy = By - Ay;
+        int vectorACx = Cx - Ax;
+        int vectorACy = Cy - Ay;
+
+        vectorABx *= 1 + resize / 100.0;
+        vectorABy *= 1 + resize / 100.0;
+        vectorACx *= 1 + resize / 100.0;
+        vectorACy *= 1 + resize / 100.0;
+
+        Bx = Ax + vectorABx;
+        By = Ay + vectorABy;
+        Cx = Ax + vectorACx;
+        Cy = Ay + vectorACy;
+    }
+
+    public void decreaseSize(int resize) {
+        int vectorABx = Bx - Ax;
+        int vectorABy = By - Ay;
+        int vectorACx = Cx - Ax;
+        int vectorACy = Cy - Ay;
+
+        vectorABx *= 1 - resize / 100.0;
+        vectorABy *= 1 - resize / 100.0;
+        vectorACx *= 1 - resize / 100.0;
+        vectorACy *= 1 - resize / 100.0;
+
+        Bx = Ax + vectorABx;
+        By = Ay + vectorABy;
+        Cx = Ax + vectorACx;
+        Cy = Ay + vectorACy;
+    }
 }

@@ -1,7 +1,5 @@
-import Objects.Circle;
+import Objects.*;
 import Objects.Rectangle;
-import Objects.ShapeFactory;
-import Objects.Triangle;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -22,16 +20,16 @@ public class DrawArea extends JComponent {
     private boolean rotateResizeMode = false;
     private boolean drawn = true;
     private final double rotateAngle = 2;
-    private final int resizeWidth = 5;
-    private final int resizeHeight = 5;
+    private final int resize = 5;
     private Rectangle rectangle;
     private Circle circle;
     private Triangle triangle;
+    private RightTriangle rightTriangle;
+    private Pentagon pentagon;
 
 
 
     public DrawArea() {
-        setDoubleBuffered(false);
 
         addMouseWheelListener(e -> {
             if(e.getWheelRotation() < 0 && rotateResizeMode) {
@@ -129,6 +127,10 @@ public class DrawArea extends JComponent {
             circle.draw(tempG);
         } else if ("Triangle".equals(tool) && !drawn){
             triangle.draw(tempG);
+        } else if ("Right Triangle".equals(tool) && !drawn) {
+            rightTriangle.draw(tempG);
+        } else if("Pentagon".equals(tool) && !drawn){
+            pentagon.draw(tempG);
         }
     }
     private void startDrawing() {
@@ -141,6 +143,12 @@ public class DrawArea extends JComponent {
         } else if ("Triangle".equals(tool) && !rotateResizeMode) {
             triangle.setAx(oldX);
             triangle.setAy(oldY);
+        } else if ("Right Triangle".equals(tool) && !rotateResizeMode) {
+            rightTriangle.setAx(oldX);
+            rightTriangle.setAy(oldY);
+        } else if ("Pentagon".equals(tool) && !rotateResizeMode){
+            pentagon.setAx(oldX);
+            pentagon.setAy(oldY);
         }
     }
     private void drawing() {
@@ -167,6 +175,17 @@ public class DrawArea extends JComponent {
             triangle.setCx(currentX);
             triangle.setCy(currentY);
             repaint();
+        } else if ("Right Triangle".equals(tool)) {
+            rightTriangle.setBx(currentX);
+            rightTriangle.setBy(currentY);
+            rightTriangle.setCx(currentX);
+            rightTriangle.setCy(currentY);
+            repaint();
+        } else if ("Pentagon".equals(tool)) {
+            pentagon.setBx(currentX);
+            pentagon.setBy(currentY);
+            pentagon.calculate();
+            repaint();
         }
     }
     private void reposition() {
@@ -178,6 +197,10 @@ public class DrawArea extends JComponent {
             circle.setY(currentY - circle.getHeight() / 2);
         } else if ("Triangle".equals(tool)) {
             triangle.move(currentX,currentY);
+        } else if ("Right Triangle".equals(tool)) {
+            rightTriangle.move(currentX,currentY);
+        } else if("Pentagon".equals(tool)){
+            pentagon.move(currentX,currentY);
         }
         repaint();
     }
@@ -188,10 +211,19 @@ public class DrawArea extends JComponent {
         ShapeFactory shapeFactory = new ShapeFactory();
         if ("Rectangle".equals(tool)) {
             rectangle = (Rectangle) shapeFactory.getShape(tool);
+            rectangle.setFill(fill);
         } else if ("Circle".equals(tool)) {
             circle = (Circle) shapeFactory.getShape(tool);
+            circle.setFill(fill);
         } else if ("Triangle".equals(tool)) {
             triangle = (Triangle) shapeFactory.getShape(tool);
+            triangle.setFill(fill);
+        } else if ("Right Triangle".equals(tool)) {
+            rightTriangle = (RightTriangle) shapeFactory.getShape(tool);
+            rightTriangle.setFill(fill);
+        } else if ("Pentagon".equals(tool)) {
+            pentagon = (Pentagon) shapeFactory.getShape(tool);
+            pentagon.setFill(fill);
         }
     }
 
@@ -200,35 +232,49 @@ public class DrawArea extends JComponent {
         drawn = true;
         if("Rectangle".equals(tool)){
             rectangle.draw(g2);
-            cancel();
         } else if ("Circle".equals(tool)) {
             circle.draw(g2);
-            cancel();
         } else if ("Triangle".equals(tool)) {
             triangle.draw(g2);
-            cancel();
+        } else if ("Right Triangle".equals(tool)) {
+            rightTriangle.draw(g2);
+        } else if ("Pentagon".equals(tool)) {
+            pentagon.draw(g2);
         }
+        cancel();
     }
 
 
     public void increaseSize() {
         if("Rectangle".equals(tool)){
-            rectangle.setWidth(rectangle.getWidth() + resizeWidth);
-            rectangle.setHeight(rectangle.getHeight() + resizeHeight);
+            rectangle.setWidth(rectangle.getWidth() + resize);
+            rectangle.setHeight(rectangle.getHeight() + resize);
         } else if ("Circle".equals(tool)) {
-            circle.setWidth(circle.getWidth() + resizeWidth);
-            circle.setHeight(circle.getHeight() + resizeHeight);
+            circle.setWidth(circle.getWidth() + resize);
+            circle.setHeight(circle.getHeight() + resize);
+        } else if ("Triangle".equals(tool)) {
+            triangle.increaseSize(resize);
+        } else if ("Right Triangle".equals(tool)) {
+            rightTriangle.increaseSize(resize);
+        } else if ("Pentagon".equals(tool)) {
+            pentagon.increaseSize(resize);
         }
         repaint();
     }
 
     public void decreaseSize() {
         if("Rectangle".equals(tool)){
-            rectangle.setWidth(rectangle.getWidth() - resizeWidth);
-            rectangle.setHeight(rectangle.getHeight() - resizeHeight);
+            rectangle.setWidth(rectangle.getWidth() - resize);
+            rectangle.setHeight(rectangle.getHeight() - resize);
         } else if ("Circle".equals(tool)) {
-            circle.setWidth(circle.getWidth() - resizeWidth);
-            circle.setHeight(circle.getHeight() - resizeHeight);
+            circle.setWidth(circle.getWidth() - resize);
+            circle.setHeight(circle.getHeight() - resize);
+        } else if ("Triangle".equals(tool)) {
+            triangle.decreaseSize(resize);
+        } else if ("Right Triangle".equals(tool)) {
+            rightTriangle.decreaseSize(resize);
+        } else if ("Pentagon".equals(tool)) {
+            pentagon.decreaseSize(resize);
         }
         repaint();
     }
@@ -240,6 +286,10 @@ public class DrawArea extends JComponent {
             circle.setRotateAngle(circle.getRotateAngle() - rotateAngle);
         } else if ("Triangle".equals(tool)) {
             triangle.setRotateAngle(triangle.getRotateAngle() - rotateAngle);
+        } else if ("Right Triangle".equals(tool)) {
+            rightTriangle.setRotateAngle(rightTriangle.getRotateAngle() - rotateAngle);
+        } else if ("Pentagon".equals(tool)) {
+            pentagon.setRotateAngle(pentagon.getRotateAngle() - rotateAngle);
         }
         repaint();
     }
@@ -251,6 +301,10 @@ public class DrawArea extends JComponent {
             circle.setRotateAngle(circle.getRotateAngle() + rotateAngle);
         } else if ("Triangle".equals(tool)) {
             triangle.setRotateAngle(triangle.getRotateAngle() + rotateAngle);
+        } else if ("Right Triangle".equals(tool)) {
+            rightTriangle.setRotateAngle(rightTriangle.getRotateAngle() + rotateAngle);
+        } else if ("Pentagon".equals(tool)) {
+            pentagon.setRotateAngle(pentagon.getRotateAngle() + rotateAngle);
         }
         repaint();
     }
@@ -262,6 +316,10 @@ public class DrawArea extends JComponent {
             circle.setFill(selected);
         } else if ("Triangle".equals(tool)) {
             triangle.setFill(selected);
+        } else if ("Right Triangle".equals(tool)) {
+            rightTriangle.setFill(selected);
+        } else if ("Pentagon".equals(tool)) {
+            pentagon.setFill(selected);
         }
         repaint();
     }
@@ -287,6 +345,10 @@ public class DrawArea extends JComponent {
             circle.setRotateAngle(0);
         } else if("Triangle".equals(tool)){
             triangle.setRotateAngle(0);
+        } else if ("Right Triangle".equals(tool)) {
+            rightTriangle.setRotateAngle(0);
+        } else if ("Pentagon".equals(tool)) {
+            pentagon.setRotateAngle(0);
         }
         rotateResizeMode = false;
         drawn = true;

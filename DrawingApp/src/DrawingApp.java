@@ -72,6 +72,16 @@ public class DrawingApp {
                 drawArea.setTool(triangleBn.getText());
             } else if (e.getSource() == rectBn) {
                 drawArea.setTool(rectBn.getText());
+            } else if (e.getSource() == rightTriangleBn) {
+                drawArea.setTool(rightTriangleBn.getText());
+            } else if (e.getSource() == pentagonBn) {
+                drawArea.setTool(pentagonBn.getText());
+            } else if (e.getSource() == hexagonBn) {
+                drawArea.setTool(hexagonBn.getText());
+            } else if (e.getSource() == houseBn) {
+                drawArea.setTool(houseBn.getText());
+            } else if(e.getSource() == zadBn){
+                drawArea.setTool(zadBn.getText());
             }
             if(e.getSource() == fillBn){
                 drawArea.setFill(fillBn.isSelected());
@@ -167,6 +177,10 @@ public class DrawingApp {
         rectBn.addActionListener(actionListener);
         circleBn.addActionListener(actionListener);
         triangleBn.addActionListener(actionListener);
+        rightTriangleBn.addActionListener(actionListener);
+        pentagonBn.addActionListener(actionListener);
+        houseBn.addActionListener(actionListener);
+        zadBn.addActionListener(actionListener);
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(penBn);
         buttonGroup.add(lineBn);

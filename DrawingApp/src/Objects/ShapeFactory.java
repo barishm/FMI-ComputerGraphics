@@ -13,6 +13,11 @@ public class ShapeFactory {
             return new Rectangle();
         } else if (shapeType.equalsIgnoreCase("TRIANGLE")) {
             return new Triangle();
+        } else if(shapeType.equalsIgnoreCase("RIGHT TRIANGLE")){
+            return new RightTriangle();
+        } else if (shapeType.equalsIgnoreCase("PENTAGON")) {
+            return new Pentagon();
+
         }
 
         return null;
