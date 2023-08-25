@@ -17,7 +17,8 @@ public class ShapeFactory {
             return new RightTriangle();
         } else if (shapeType.equalsIgnoreCase("PENTAGON")) {
             return new Pentagon();
-
+        } else if (shapeType.equalsIgnoreCase("HEXAGON")) {
+            return new Hexagon();
         }
 
         return null;

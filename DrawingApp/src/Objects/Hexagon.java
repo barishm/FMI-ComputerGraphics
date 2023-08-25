@@ -2,7 +2,7 @@ package Objects;
 
 import java.awt.*;
 
-public class Pentagon implements Shape{
+public class Hexagon implements Shape {
     private int Ax;
     private int Ay;
     private int Bx;
@@ -13,16 +13,14 @@ public class Pentagon implements Shape{
     private int Dy;
     private int Ex;
     private int Ey;
+    private int Fx;
+    private int Fy;
     private double rotateAngle = 0;
     private boolean fill;
 
-
-    public Pentagon() {
-    }
-
     @Override
     public void draw(Graphics2D graphics2D) {
-        Polygon polygon = new Polygon(new int[]{Ax, Bx, Cx, Dx, Ex},new int[]{Ay, By, Cy, Dy, Ey},5);
+        Polygon polygon = new Polygon(new int[]{Ax, Bx, Cx, Dx, Ex, Fx},new int[]{Ay, By, Cy, Dy, Ey, Fy},6);
         graphics2D.rotate(Math.toRadians(rotateAngle),(Ax + Bx + Cx + Dx + Ex) / 5.0,(Ay + By + Cy + Dy + Ey) / 5.0);
         if(fill){
             graphics2D.fill(polygon);
@@ -44,11 +42,13 @@ public class Pentagon implements Shape{
         Bx = bx;
     }
 
-
     public void setBy(int by) {
         By = by;
     }
 
+    public void setFill(boolean fill) {
+        this.fill = fill;
+    }
 
     public double getRotateAngle() {
         return rotateAngle;
@@ -58,25 +58,69 @@ public class Pentagon implements Shape{
         this.rotateAngle = rotateAngle;
     }
 
-
-    public void setFill(boolean fill) {
-        this.fill = fill;
-    }
     public void calculate(){
-        Ex = this.Ax - (this.Bx - this.Ax);
-        Ey = By;
-        int width = Bx - Ex;
-
-        Cx = (Bx - width / 5);
+        Cx = Bx;
         Cy = By + (By - Ay);
 
-        Dx = Ex + width / 5;
-        Dy = By+  By - Ay;
+        Dx = Ax;
+        Dy = Cy + (By - Ay);
+
+        Ex = Ax - (Bx - Ax);
+        Ey = Cy;
+
+
+        Fx = Ax - (Bx - Ax);
+        Fy = By;
 
     }
-    public void move(int currentX,int currentY){
-        int deltaX = currentX - (Ax + Bx + Cx + Dx + Ex) / 5;
-        int deltaY = currentY - (Ay + By + Cy + Dy + Ey) / 5;
+
+    public void increaseSize(int resize) {
+        double scaleFactor = 1 + (resize / 100.0); // Convert resize percentage to a scale factor
+
+        // Calculate the center of the hexagon
+        double centerX = (Ax + Bx + Cx + Dx + Ex + Fx) / 6.0;
+        double centerY = (Ay + By + Cy + Dy + Ey + Fy) / 6.0;
+
+        // Update the positions of the vertices based on the scale factor and the center
+        Ax = (int) ((Ax - centerX) * scaleFactor + centerX);
+        Ay = (int) ((Ay - centerY) * scaleFactor + centerY);
+        Bx = (int) ((Bx - centerX) * scaleFactor + centerX);
+        By = (int) ((By - centerY) * scaleFactor + centerY);
+        Cx = (int) ((Cx - centerX) * scaleFactor + centerX);
+        Cy = (int) ((Cy - centerY) * scaleFactor + centerY);
+        Dx = (int) ((Dx - centerX) * scaleFactor + centerX);
+        Dy = (int) ((Dy - centerY) * scaleFactor + centerY);
+        Ex = (int) ((Ex - centerX) * scaleFactor + centerX);
+        Ey = (int) ((Ey - centerY) * scaleFactor + centerY);
+        Fx = (int) ((Fx - centerX) * scaleFactor + centerX);
+        Fy = (int) ((Fy - centerY) * scaleFactor + centerY);
+    }
+
+    public void decreaseSize(int resize) {
+        double scaleFactor = 1 - (resize / 100.0); // Convert resize percentage to a scale factor
+
+        // Calculate the center of the hexagon
+        double centerX = (Ax + Bx + Cx + Dx + Ex + Fx) / 6.0;
+        double centerY = (Ay + By + Cy + Dy + Ey + Fy) / 6.0;
+
+        // Update the positions of the vertices based on the scale factor and the center
+        Ax = (int) ((Ax - centerX) * scaleFactor + centerX);
+        Ay = (int) ((Ay - centerY) * scaleFactor + centerY);
+        Bx = (int) ((Bx - centerX) * scaleFactor + centerX);
+        By = (int) ((By - centerY) * scaleFactor + centerY);
+        Cx = (int) ((Cx - centerX) * scaleFactor + centerX);
+        Cy = (int) ((Cy - centerY) * scaleFactor + centerY);
+        Dx = (int) ((Dx - centerX) * scaleFactor + centerX);
+        Dy = (int) ((Dy - centerY) * scaleFactor + centerY);
+        Ex = (int) ((Ex - centerX) * scaleFactor + centerX);
+        Ey = (int) ((Ey - centerY) * scaleFactor + centerY);
+        Fx = (int) ((Fx - centerX) * scaleFactor + centerX);
+        Fy = (int) ((Fy - centerY) * scaleFactor + centerY);
+    }
+
+    public void move(int currentX, int currentY) {
+        int deltaX = currentX - (Ax + Bx + Cx + Dx + Ex + Fx) / 6;
+        int deltaY = currentY - (Ay + By + Cy + Dy + Ey + Fy) / 6;
 
         Ax += deltaX;
         Ay += deltaY;
@@ -88,42 +132,7 @@ public class Pentagon implements Shape{
         Dy += deltaY;
         Ex += deltaX;
         Ey += deltaY;
-
-    }
-
-    public void increaseSize(int resize) {
-        double scaleFactor = 1 + (resize / 100.0);
-
-        double centerX = (Ax + Bx + Cx + Dx + Ex) / 5.0;
-        double centerY = (Ay + By + Cy + Dy + Ey) / 5.0;
-
-        Ax = (int) ((Ax - centerX) * scaleFactor + centerX);
-        Ay = (int) ((Ay - centerY) * scaleFactor + centerY);
-        Bx = (int) ((Bx - centerX) * scaleFactor + centerX);
-        By = (int) ((By - centerY) * scaleFactor + centerY);
-        Cx = (int) ((Cx - centerX) * scaleFactor + centerX);
-        Cy = (int) ((Cy - centerY) * scaleFactor + centerY);
-        Dx = (int) ((Dx - centerX) * scaleFactor + centerX);
-        Dy = (int) ((Dy - centerY) * scaleFactor + centerY);
-        Ex = (int) ((Ex - centerX) * scaleFactor + centerX);
-        Ey = (int) ((Ey - centerY) * scaleFactor + centerY);
-    }
-
-    public void decreaseSize(int resize) {
-        double scaleFactor = 1 - (resize / 100.0);
-
-        double centerX = (Ax + Bx + Cx + Dx + Ex) / 5.0;
-        double centerY = (Ay + By + Cy + Dy + Ey) / 5.0;
-
-        Ax = (int) ((Ax - centerX) * scaleFactor + centerX);
-        Ay = (int) ((Ay - centerY) * scaleFactor + centerY);
-        Bx = (int) ((Bx - centerX) * scaleFactor + centerX);
-        By = (int) ((By - centerY) * scaleFactor + centerY);
-        Cx = (int) ((Cx - centerX) * scaleFactor + centerX);
-        Cy = (int) ((Cy - centerY) * scaleFactor + centerY);
-        Dx = (int) ((Dx - centerX) * scaleFactor + centerX);
-        Dy = (int) ((Dy - centerY) * scaleFactor + centerY);
-        Ex = (int) ((Ex - centerX) * scaleFactor + centerX);
-        Ey = (int) ((Ey - centerY) * scaleFactor + centerY);
+        Fx += deltaX;
+        Fy += deltaY;
     }
 }

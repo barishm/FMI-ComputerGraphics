@@ -4,6 +4,10 @@ import Objects.Rectangle;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 
@@ -15,7 +19,6 @@ public class DrawArea extends JComponent {
     private int currentX, currentY, oldX, oldY,stroke = 2;
     private String tool = "Pen";
     private Color color = Color.BLACK;
-    private Color color2;
     private boolean fill = false;
     private boolean rotateResizeMode = false;
     private boolean drawn = true;
@@ -26,6 +29,7 @@ public class DrawArea extends JComponent {
     private Triangle triangle;
     private RightTriangle rightTriangle;
     private Pentagon pentagon;
+    private Hexagon hexagon;
 
 
 
@@ -131,6 +135,8 @@ public class DrawArea extends JComponent {
             rightTriangle.draw(tempG);
         } else if("Pentagon".equals(tool) && !drawn){
             pentagon.draw(tempG);
+        } else if ("Hexagon".equals(tool) && !drawn) {
+            hexagon.draw(tempG);
         }
     }
     private void startDrawing() {
@@ -149,6 +155,9 @@ public class DrawArea extends JComponent {
         } else if ("Pentagon".equals(tool) && !rotateResizeMode){
             pentagon.setAx(oldX);
             pentagon.setAy(oldY);
+        } else if ("Hexagon".equals(tool) && !rotateResizeMode) {
+            hexagon.setAx(oldX);
+            hexagon.setAy(oldY);
         }
     }
     private void drawing() {
@@ -186,6 +195,11 @@ public class DrawArea extends JComponent {
             pentagon.setBy(currentY);
             pentagon.calculate();
             repaint();
+        } else if ("Hexagon".equals(tool)) {
+            hexagon.setBx(currentX);
+            hexagon.setBy(currentY);
+            hexagon.calculate();
+            repaint();
         }
     }
     private void reposition() {
@@ -201,6 +215,8 @@ public class DrawArea extends JComponent {
             rightTriangle.move(currentX,currentY);
         } else if("Pentagon".equals(tool)){
             pentagon.move(currentX,currentY);
+        } else if ("Hexagon".equals(tool)) {
+            hexagon.move(currentX,currentY);
         }
         repaint();
     }
@@ -224,6 +240,9 @@ public class DrawArea extends JComponent {
         } else if ("Pentagon".equals(tool)) {
             pentagon = (Pentagon) shapeFactory.getShape(tool);
             pentagon.setFill(fill);
+        } else if("Hexagon".equals(tool)){
+            hexagon = (Hexagon) shapeFactory.getShape(tool);
+            hexagon.setFill(fill);
         }
     }
 
@@ -240,6 +259,8 @@ public class DrawArea extends JComponent {
             rightTriangle.draw(g2);
         } else if ("Pentagon".equals(tool)) {
             pentagon.draw(g2);
+        } else if ("Hexagon".equals(tool)) {
+            hexagon.draw(g2);
         }
         cancel();
     }
@@ -258,6 +279,8 @@ public class DrawArea extends JComponent {
             rightTriangle.increaseSize(resize);
         } else if ("Pentagon".equals(tool)) {
             pentagon.increaseSize(resize);
+        } else if ("Hexagon".equals(tool)) {
+            hexagon.increaseSize(resize);
         }
         repaint();
     }
@@ -275,6 +298,8 @@ public class DrawArea extends JComponent {
             rightTriangle.decreaseSize(resize);
         } else if ("Pentagon".equals(tool)) {
             pentagon.decreaseSize(resize);
+        } else if ("Hexagon".equals(tool)) {
+            hexagon.decreaseSize(resize);
         }
         repaint();
     }
@@ -290,6 +315,8 @@ public class DrawArea extends JComponent {
             rightTriangle.setRotateAngle(rightTriangle.getRotateAngle() - rotateAngle);
         } else if ("Pentagon".equals(tool)) {
             pentagon.setRotateAngle(pentagon.getRotateAngle() - rotateAngle);
+        } else if ("Hexagon".equals(tool)) {
+            hexagon.setRotateAngle(hexagon.getRotateAngle() - rotateAngle);
         }
         repaint();
     }
@@ -305,6 +332,8 @@ public class DrawArea extends JComponent {
             rightTriangle.setRotateAngle(rightTriangle.getRotateAngle() + rotateAngle);
         } else if ("Pentagon".equals(tool)) {
             pentagon.setRotateAngle(pentagon.getRotateAngle() + rotateAngle);
+        } else if ("Hexagon".equals(tool)) {
+            hexagon.setRotateAngle(hexagon.getRotateAngle() + rotateAngle);
         }
         repaint();
     }
@@ -320,12 +349,13 @@ public class DrawArea extends JComponent {
             rightTriangle.setFill(selected);
         } else if ("Pentagon".equals(tool)) {
             pentagon.setFill(selected);
+        } else if ("Hexagon".equals(tool)) {
+            hexagon.setFill(selected);
         }
         repaint();
     }
     public void setOpacity(int value) {
-        color2 = new Color(color.getRed(),color.getGreen(),color.getBlue(),value);
-        color = color2;
+        color = new Color(color.getRed(), color.getGreen(), color.getBlue(), value);
         g2.setColor(color);
         repaint();
     }
@@ -349,6 +379,8 @@ public class DrawArea extends JComponent {
             rightTriangle.setRotateAngle(0);
         } else if ("Pentagon".equals(tool)) {
             pentagon.setRotateAngle(0);
+        } else if ("Hexagon".equals(tool)) {
+            hexagon.setRotateAngle(0);
         }
         rotateResizeMode = false;
         drawn = true;
@@ -364,6 +396,11 @@ public class DrawArea extends JComponent {
         color = colour;
         g2.setColor(color);
         repaint();
+    }
+
+    public void save(String path) throws IOException {
+        File file = new File(path);
+        ImageIO.write((RenderedImage) image,"png",file);
     }
 }
 

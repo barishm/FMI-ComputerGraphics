@@ -73,49 +73,31 @@ public class RightTriangle implements Shape{
         Cy = Ay + vectorACy;
     }
 
-    public int getAx() {
-        return Ax;
-    }
 
     public void setAx(int ax) {
         Ax = ax;
     }
 
-    public int getAy() {
-        return Ay;
-    }
 
     public void setAy(int ay) {
         Ay = ay;
     }
 
-    public int getBx() {
-        return Bx;
-    }
 
     public void setBx(int bx) {
         Bx = bx;
     }
 
-    public int getBy() {
-        return By;
-    }
 
     public void setBy(int by) {
         By = by;
     }
 
-    public int getCx() {
-        return Cx;
-    }
 
     public void setCx(int cx) {
         Cx = this.Ax;
     }
 
-    public int getCy() {
-        return Cy;
-    }
 
     public void setCy(int cy) {
         Cy = cy;
@@ -129,9 +111,6 @@ public class RightTriangle implements Shape{
         this.rotateAngle = rotateAngle;
     }
 
-    public boolean isFill() {
-        return fill;
-    }
 
     public void setFill(boolean fill) {
         this.fill = fill;

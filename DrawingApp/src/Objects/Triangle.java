@@ -27,49 +27,31 @@ public class Triangle implements Shape {
         }
     }
 
-    public int getAx() {
-        return Ax;
-    }
 
     public void setAx(int ax) {
         Ax = ax;
     }
 
-    public int getAy() {
-        return Ay;
-    }
 
     public void setAy(int ay) {
         Ay = ay;
     }
 
-    public int getBx() {
-        return Bx;
-    }
 
     public void setBx(int bx) {
         Bx = bx;
     }
 
-    public int getBy() {
-        return By;
-    }
 
     public void setBy(int by) {
         By = by;
     }
 
-    public int getCx() {
-        return Cx;
-    }
 
     public void setCx(int cx) {
         Cx = this.Ax - (this.Bx - this.Ax);
     }
 
-    public int getCy() {
-        return Cy;
-    }
 
     public void setCy(int cy) {
         Cy = cy;
@@ -83,9 +65,6 @@ public class Triangle implements Shape {
         this.rotateAngle = rotateAngle;
     }
 
-    public boolean isFill() {
-        return fill;
-    }
 
     public void setFill(boolean fill) {
         this.fill = fill;

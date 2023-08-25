@@ -15,20 +15,8 @@ public class Rectangle implements Shape{
     private double rotateAngle = 0;
     private boolean fill;
 
-    public boolean isFill() {
-        return fill;
-    }
-
     public void setFill(boolean fill) {
         this.fill = fill;
-    }
-
-    public Rectangle(double x, double y, double width, double height, double rotateAngle) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.rotateAngle = rotateAngle;
     }
 
     @Override
@@ -41,17 +29,11 @@ public class Rectangle implements Shape{
             graphics2D.draw(r);
         }
     }
-    public double getX() {
-        return x;
-    }
 
     public void setX(double x) {
         this.x = x;
     }
 
-    public double getY() {
-        return y;
-    }
 
     public void setY(double y) {
         this.y = y;

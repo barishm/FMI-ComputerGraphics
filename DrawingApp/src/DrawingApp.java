@@ -4,9 +4,12 @@ import UI.ColorButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class DrawingApp {
     public static void main(String[] args) {
@@ -15,7 +18,7 @@ public class DrawingApp {
     }
 
     JButton clearBtn, saveBtn, applyBtn, cancelBtn,sizePlusBtn,sizeMinusBtn,rBtn,lBtn, blackBtn, blueBtn, greenBtn, redBtn, customBtn;
-    JRadioButton fillBn,penBn,lineBn,circleBn,triangleBn, rightTriangleBn, rectBn, pentagonBn, hexagonBn, houseBn, zadBn;
+    JRadioButton fillBn,penBn,lineBn,circleBn,triangleBn, rightTriangleBn, rectBn, pentagonBn, hexagonBn, zadBn;
     JSlider strokeSlider, opacitySlider;
     JColorChooser jColorChooser;
     Color color;
@@ -36,8 +39,6 @@ public class DrawingApp {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == clearBtn) {
                 drawArea.clear();
-            } else if (e.getSource() == saveBtn) {
-                System.out.println("TODO");
             } else if (e.getSource() == sizePlusBtn) {
                 drawArea.increaseSize();
             } else if (e.getSource() == sizeMinusBtn) {
@@ -78,10 +79,23 @@ public class DrawingApp {
                 drawArea.setTool(pentagonBn.getText());
             } else if (e.getSource() == hexagonBn) {
                 drawArea.setTool(hexagonBn.getText());
-            } else if (e.getSource() == houseBn) {
-                drawArea.setTool(houseBn.getText());
             } else if(e.getSource() == zadBn){
                 drawArea.setTool(zadBn.getText());
+            } else if (e.getSource() == saveBtn) {
+                JFileChooser jFileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("png","png");
+                jFileChooser.setFileFilter(filter);
+                int response = jFileChooser.showSaveDialog(null);
+                if(response == JFileChooser.APPROVE_OPTION){
+                    File file = new File(jFileChooser.getSelectedFile().getAbsolutePath());
+                    String path = file.getPath();
+                    path += ".png";
+                    try {
+                        drawArea.save(path);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
             }
             if(e.getSource() == fillBn){
                 drawArea.setFill(fillBn.isSelected());
@@ -165,7 +179,6 @@ public class DrawingApp {
         rightTriangleBn = new JRadioButton("Right Triangle");
         pentagonBn = new JRadioButton("Pentagon");
         hexagonBn = new JRadioButton("Hexagon");
-        houseBn = new JRadioButton("House");
         zadBn = new JRadioButton("Zad");
         fillBn.addActionListener(actionListener);
         sizePlusBtn.addActionListener(actionListener);
@@ -179,7 +192,7 @@ public class DrawingApp {
         triangleBn.addActionListener(actionListener);
         rightTriangleBn.addActionListener(actionListener);
         pentagonBn.addActionListener(actionListener);
-        houseBn.addActionListener(actionListener);
+        hexagonBn.addActionListener(actionListener);
         zadBn.addActionListener(actionListener);
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(penBn);
@@ -190,7 +203,6 @@ public class DrawingApp {
         buttonGroup.add(rightTriangleBn);
         buttonGroup.add(pentagonBn);
         buttonGroup.add(hexagonBn);
-        buttonGroup.add(houseBn);
         buttonGroup.add(zadBn);
 
         topPanel.add(penBn);
@@ -202,7 +214,6 @@ public class DrawingApp {
         topPanel.add(pentagonBn);
         topPanel.add(hexagonBn);
         topPanel.add(zadBn);
-        topPanel.add(houseBn);
 
         bottomPanel.add(new JLabel("Width:"));
         bottomPanel.add(strokeSlider);
