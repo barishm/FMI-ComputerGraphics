@@ -8,7 +8,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.JComponent;
+import javax.swing.*;
 
 
 public class DrawArea extends JComponent {
@@ -141,11 +141,11 @@ public class DrawArea extends JComponent {
     }
     private void startDrawing() {
         if("Rectangle".equals(tool)){
-            rectangle.setX(oldX);
-            rectangle.setY(oldY);
+            rectangle.setAx(oldX);
+            rectangle.setAy(oldY);
         } else if ("Circle".equals(tool)) {
-            circle.setX(oldX);
-            circle.setY(oldY);
+            circle.setAx(oldX);
+            circle.setAy(oldY);
         } else if ("Triangle".equals(tool) && !rotateResizeMode) {
             triangle.setAx(oldX);
             triangle.setAy(oldY);
@@ -171,12 +171,12 @@ public class DrawArea extends JComponent {
         } else if ("Line".equals(tool)) {
             repaint();
         } else if ("Rectangle".equals(tool)) {
-            rectangle.setWidth(currentX - oldX);
-            rectangle.setHeight(currentY - oldY);
+            rectangle.setBx(currentX - oldX);
+            rectangle.setBy(currentY - oldY);
             repaint();
         } else if ("Circle".equals(tool)) {
-            circle.setWidth(currentX - oldX);
-            circle.setHeight(currentY - oldY);
+            circle.setBx(currentX - oldX);
+            circle.setBy(currentY - oldY);
             repaint();
         } else if ("Triangle".equals(tool)) {
             triangle.setBx(currentX);
@@ -204,11 +204,9 @@ public class DrawArea extends JComponent {
     }
     private void reposition() {
         if("Rectangle".equals(tool)){
-            rectangle.setX(currentX -  rectangle.getWidth() / 2);
-            rectangle.setY(currentY - rectangle.getHeight() / 2);
+            rectangle.move(currentX,currentY);
         } else if ("Circle".equals(tool)) {
-            circle.setX(currentX - circle.getWidth() / 2);
-            circle.setY(currentY - circle.getHeight() / 2);
+            circle.move(currentX,currentY);
         } else if ("Triangle".equals(tool)) {
             triangle.move(currentX,currentY);
         } else if ("Right Triangle".equals(tool)) {
@@ -268,11 +266,9 @@ public class DrawArea extends JComponent {
 
     public void increaseSize() {
         if("Rectangle".equals(tool)){
-            rectangle.setWidth(rectangle.getWidth() + resize);
-            rectangle.setHeight(rectangle.getHeight() + resize);
+            rectangle.increaseSize(resize);
         } else if ("Circle".equals(tool)) {
-            circle.setWidth(circle.getWidth() + resize);
-            circle.setHeight(circle.getHeight() + resize);
+            circle.increaseSize(resize);
         } else if ("Triangle".equals(tool)) {
             triangle.increaseSize(resize);
         } else if ("Right Triangle".equals(tool)) {
@@ -287,11 +283,9 @@ public class DrawArea extends JComponent {
 
     public void decreaseSize() {
         if("Rectangle".equals(tool)){
-            rectangle.setWidth(rectangle.getWidth() - resize);
-            rectangle.setHeight(rectangle.getHeight() - resize);
+            rectangle.decreaseSize(resize);
         } else if ("Circle".equals(tool)) {
-            circle.setWidth(circle.getWidth() - resize);
-            circle.setHeight(circle.getHeight() - resize);
+            circle.decreaseSize(resize);
         } else if ("Triangle".equals(tool)) {
             triangle.decreaseSize(resize);
         } else if ("Right Triangle".equals(tool)) {
@@ -402,5 +396,6 @@ public class DrawArea extends JComponent {
         File file = new File(path);
         ImageIO.write((RenderedImage) image,"png",file);
     }
+
 }
 

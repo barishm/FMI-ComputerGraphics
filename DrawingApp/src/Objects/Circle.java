@@ -5,10 +5,10 @@ import java.awt.geom.Ellipse2D;
 
 public class Circle implements Shape{
 
-    private double x;
-    private double y;
-    private double width;
-    private double height;
+    private double Ax;
+    private double Ay;
+    private double Bx;
+    private double By;
     private double rotateAngle = 0;
     private boolean fill;
     public Circle() {
@@ -16,8 +16,8 @@ public class Circle implements Shape{
     }
     @Override
     public void draw(Graphics2D graphics2D) {
-        Ellipse2D.Double e = new Ellipse2D.Double(x,y,width,height);
-        graphics2D.rotate(Math.toRadians(rotateAngle),x+ (width /2),y+( height /2));
+        Ellipse2D.Double e = new Ellipse2D.Double(Ax,Ay,Bx,By);
+        graphics2D.rotate(Math.toRadians(rotateAngle),Ax+ (Bx /2),Ay+( By /2));
         if(fill){
             graphics2D.fill(e);
         }else {
@@ -25,24 +25,27 @@ public class Circle implements Shape{
         }
 
     }
-    public void setX(double x) {
-        this.x = x;
+    public void move(int currentX, int currentY){
+        Ax = currentX - Bx / 2;
+        Ay = currentY - By / 2;
     }
-    public void setY(double y) {
-        this.y = y;
+
+    public void setAx(double ax) {
+        Ax = ax;
     }
-    public double getWidth() {
-        return width;
+
+    public void setAy(double ay) {
+        Ay = ay;
     }
-    public void setWidth(double width) {
-        this.width = width;
+
+    public void setBx(double bx) {
+        Bx = bx;
     }
-    public double getHeight() {
-        return height;
+
+    public void setBy(double by) {
+        By = by;
     }
-    public void setHeight(double height) {
-        this.height = height;
-    }
+
     public double getRotateAngle() {
         return rotateAngle;
     }
@@ -51,5 +54,15 @@ public class Circle implements Shape{
     }
     public void setFill(boolean fill) {
         this.fill = fill;
+    }
+
+    public void increaseSize(int resize) {
+        By += resize;
+        Bx += resize;
+    }
+
+    public void decreaseSize(int resize) {
+        By -= resize;
+        Bx -= resize;
     }
 }
