@@ -2,7 +2,7 @@ package Objects;
 
 import java.awt.*;
 
-public class Pentagon implements Shape{
+public class Pentagon extends Shape{
     private int Ax;
     private int Ay;
     private int Bx;
@@ -32,23 +32,23 @@ public class Pentagon implements Shape{
 
     }
 
-    public void setAx(int ax) {
-        Ax = ax;
-    }
-
-    public void setAy(int ay) {
-        Ay = ay;
-    }
-
-    public void setBx(int bx) {
-        Bx = bx;
+    public void setAx(double ax) {
+        Ax = (int) ax;
     }
 
 
-    public void setBy(int by) {
-        By = by;
+    public void setAy(double ay) {
+        Ay = (int) ay;
     }
 
+
+    public void setBx(double bx) {
+        Bx = (int) bx;
+    }
+
+    public void setBy(double by) {
+        By = (int) by;
+    }
 
     public double getRotateAngle() {
         return rotateAngle;

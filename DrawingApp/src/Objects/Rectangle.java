@@ -4,7 +4,7 @@ package Objects;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class Rectangle implements Shape{
+public class Rectangle extends Shape{
     public Rectangle() {
     }
 
@@ -37,6 +37,13 @@ public class Rectangle implements Shape{
         Bx += resize;
         By += resize;
     }
+
+    @Override
+    public void calculate() {
+        Bx = Bx - Ax;
+        By = By - Ay;
+    }
+
     public void decreaseSize(int resize){
         Bx -= resize;
         By -= resize;

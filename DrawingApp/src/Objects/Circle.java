@@ -3,7 +3,7 @@ package Objects;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class Circle implements Shape{
+public class Circle extends Shape{
 
     private double Ax;
     private double Ay;
@@ -59,6 +59,12 @@ public class Circle implements Shape{
     public void increaseSize(int resize) {
         By += resize;
         Bx += resize;
+    }
+
+    @Override
+    public void calculate() {
+        Bx = Bx - Ax;
+        By = By - Ay;
     }
 
     public void decreaseSize(int resize) {

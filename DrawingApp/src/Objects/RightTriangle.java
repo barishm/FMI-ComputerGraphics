@@ -2,7 +2,7 @@ package Objects;
 
 import java.awt.*;
 
-public class RightTriangle implements Shape{
+public class RightTriangle extends Shape{
     private int Ax;
     private int Ay;
     private int Bx;
@@ -56,6 +56,32 @@ public class RightTriangle implements Shape{
         Cx = Ax + vectorACx;
         Cy = Ay + vectorACy;
     }
+
+    @Override
+    public void calculate() {
+        Cx = Ax;
+        Cy = By;
+    }
+
+    public void setAx(double ax) {
+        Ax = (int) ax;
+    }
+
+
+    public void setAy(double ay) {
+        Ay = (int) ay;
+    }
+
+
+    public void setBx(double bx) {
+        Bx = (int) bx;
+    }
+
+    public void setBy(double by) {
+        By = (int) by;
+    }
+
+
     public void decreaseSize(int resize) {
         int vectorABx = Bx - Ax;
         int vectorABy = By - Ay;
@@ -74,34 +100,7 @@ public class RightTriangle implements Shape{
     }
 
 
-    public void setAx(int ax) {
-        Ax = ax;
-    }
 
-
-    public void setAy(int ay) {
-        Ay = ay;
-    }
-
-
-    public void setBx(int bx) {
-        Bx = bx;
-    }
-
-
-    public void setBy(int by) {
-        By = by;
-    }
-
-
-    public void setCx(int cx) {
-        Cx = this.Ax;
-    }
-
-
-    public void setCy(int cy) {
-        Cy = cy;
-    }
 
     public double getRotateAngle() {
         return rotateAngle;

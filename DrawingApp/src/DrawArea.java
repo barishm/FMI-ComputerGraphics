@@ -1,5 +1,5 @@
 import Objects.*;
-import Objects.Rectangle;
+import Objects.Shape;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -24,12 +24,7 @@ public class DrawArea extends JComponent {
     private boolean drawn = true;
     private final double rotateAngle = 2;
     private final int resize = 5;
-    private Rectangle rectangle;
-    private Circle circle;
-    private Triangle triangle;
-    private RightTriangle rightTriangle;
-    private Pentagon pentagon;
-    private Hexagon hexagon;
+    private Shape shape;
 
 
 
@@ -98,8 +93,7 @@ public class DrawArea extends JComponent {
                         oldX = currentX;
                         oldY = currentY;
                     }
-                }
-                if(!"Pen".equals(tool)){
+                } else if(!"Pen".equals(tool)){
                     if(g2 != null){
                         rotateResizeMode = true;
                         requestFocus();
@@ -125,41 +119,17 @@ public class DrawArea extends JComponent {
         tempG.drawImage(image, 0, 0, null);
         if("Line".equals(tool) && !drawn){
             tempG.drawLine(oldX,oldY,currentX,currentY);
-        } else if("Rectangle".equals(tool) && !drawn){
-            rectangle.draw(tempG);
-        } else if ("Circle".equals(tool) && !drawn) {
-            circle.draw(tempG);
-        } else if ("Triangle".equals(tool) && !drawn){
-            triangle.draw(tempG);
-        } else if ("Right Triangle".equals(tool) && !drawn) {
-            rightTriangle.draw(tempG);
-        } else if("Pentagon".equals(tool) && !drawn){
-            pentagon.draw(tempG);
-        } else if ("Hexagon".equals(tool) && !drawn) {
-            hexagon.draw(tempG);
+        } else if(!"Pen".equals(tool) && !drawn){
+            shape.draw(tempG);
         }
     }
     private void startDrawing() {
-        if("Rectangle".equals(tool)){
-            rectangle.setAx(oldX);
-            rectangle.setAy(oldY);
-        } else if ("Circle".equals(tool)) {
-            circle.setAx(oldX);
-            circle.setAy(oldY);
-        } else if ("Triangle".equals(tool) && !rotateResizeMode) {
-            triangle.setAx(oldX);
-            triangle.setAy(oldY);
-        } else if ("Right Triangle".equals(tool) && !rotateResizeMode) {
-            rightTriangle.setAx(oldX);
-            rightTriangle.setAy(oldY);
-        } else if ("Pentagon".equals(tool) && !rotateResizeMode){
-            pentagon.setAx(oldX);
-            pentagon.setAy(oldY);
-        } else if ("Hexagon".equals(tool) && !rotateResizeMode) {
-            hexagon.setAx(oldX);
-            hexagon.setAy(oldY);
+        if(shape != null && !rotateResizeMode) {
+            shape.setAx(oldX);
+            shape.setAy(oldY);
         }
     }
+
     private void drawing() {
         if("Pen".equals(tool)) {
             if (g2 != null) {
@@ -170,52 +140,15 @@ public class DrawArea extends JComponent {
             }
         } else if ("Line".equals(tool)) {
             repaint();
-        } else if ("Rectangle".equals(tool)) {
-            rectangle.setBx(currentX - oldX);
-            rectangle.setBy(currentY - oldY);
-            repaint();
-        } else if ("Circle".equals(tool)) {
-            circle.setBx(currentX - oldX);
-            circle.setBy(currentY - oldY);
-            repaint();
-        } else if ("Triangle".equals(tool)) {
-            triangle.setBx(currentX);
-            triangle.setBy(currentY);
-            triangle.setCx(currentX);
-            triangle.setCy(currentY);
-            repaint();
-        } else if ("Right Triangle".equals(tool)) {
-            rightTriangle.setBx(currentX);
-            rightTriangle.setBy(currentY);
-            rightTriangle.setCx(currentX);
-            rightTriangle.setCy(currentY);
-            repaint();
-        } else if ("Pentagon".equals(tool)) {
-            pentagon.setBx(currentX);
-            pentagon.setBy(currentY);
-            pentagon.calculate();
-            repaint();
-        } else if ("Hexagon".equals(tool)) {
-            hexagon.setBx(currentX);
-            hexagon.setBy(currentY);
-            hexagon.calculate();
+        } else  {
+            shape.setBx(currentX);
+            shape.setBy(currentY);
+            shape.calculate();
             repaint();
         }
     }
     private void reposition() {
-        if("Rectangle".equals(tool)){
-            rectangle.move(currentX,currentY);
-        } else if ("Circle".equals(tool)) {
-            circle.move(currentX,currentY);
-        } else if ("Triangle".equals(tool)) {
-            triangle.move(currentX,currentY);
-        } else if ("Right Triangle".equals(tool)) {
-            rightTriangle.move(currentX,currentY);
-        } else if("Pentagon".equals(tool)){
-            pentagon.move(currentX,currentY);
-        } else if ("Hexagon".equals(tool)) {
-            hexagon.move(currentX,currentY);
-        }
+        shape.move(currentX,currentY);
         repaint();
     }
 
@@ -224,127 +157,57 @@ public class DrawArea extends JComponent {
         rotateResizeMode = false;
         ShapeFactory shapeFactory = new ShapeFactory();
         if ("Rectangle".equals(tool)) {
-            rectangle = (Rectangle) shapeFactory.getShape(tool);
-            rectangle.setFill(fill);
+            shape = shapeFactory.getShape(tool);
         } else if ("Circle".equals(tool)) {
-            circle = (Circle) shapeFactory.getShape(tool);
-            circle.setFill(fill);
+            shape = shapeFactory.getShape(tool);
         } else if ("Triangle".equals(tool)) {
-            triangle = (Triangle) shapeFactory.getShape(tool);
-            triangle.setFill(fill);
+            shape = shapeFactory.getShape(tool);
         } else if ("Right Triangle".equals(tool)) {
-            rightTriangle = (RightTriangle) shapeFactory.getShape(tool);
-            rightTriangle.setFill(fill);
+            shape = shapeFactory.getShape(tool);
         } else if ("Pentagon".equals(tool)) {
-            pentagon = (Pentagon) shapeFactory.getShape(tool);
-            pentagon.setFill(fill);
-        } else if("Hexagon".equals(tool)){
-            hexagon = (Hexagon) shapeFactory.getShape(tool);
-            hexagon.setFill(fill);
+            shape = shapeFactory.getShape(tool);
+        } else if ("Hexagon".equals(tool)) {
+            shape = shapeFactory.getShape(tool);
         }
+        if(shape != null){
+            shape.setFill(fill);
+        }
+
     }
 
     public void apply() {
         tempG.drawLine(0,0,0,0);
         drawn = true;
-        if("Rectangle".equals(tool)){
-            rectangle.draw(g2);
-        } else if ("Circle".equals(tool)) {
-            circle.draw(g2);
-        } else if ("Triangle".equals(tool)) {
-            triangle.draw(g2);
-        } else if ("Right Triangle".equals(tool)) {
-            rightTriangle.draw(g2);
-        } else if ("Pentagon".equals(tool)) {
-            pentagon.draw(g2);
-        } else if ("Hexagon".equals(tool)) {
-            hexagon.draw(g2);
+        if(shape != null){
+            shape.draw(g2);
         }
         cancel();
     }
 
 
     public void increaseSize() {
-        if("Rectangle".equals(tool)){
-            rectangle.increaseSize(resize);
-        } else if ("Circle".equals(tool)) {
-            circle.increaseSize(resize);
-        } else if ("Triangle".equals(tool)) {
-            triangle.increaseSize(resize);
-        } else if ("Right Triangle".equals(tool)) {
-            rightTriangle.increaseSize(resize);
-        } else if ("Pentagon".equals(tool)) {
-            pentagon.increaseSize(resize);
-        } else if ("Hexagon".equals(tool)) {
-            hexagon.increaseSize(resize);
-        }
+        shape.increaseSize(resize);
         repaint();
     }
 
     public void decreaseSize() {
-        if("Rectangle".equals(tool)){
-            rectangle.decreaseSize(resize);
-        } else if ("Circle".equals(tool)) {
-            circle.decreaseSize(resize);
-        } else if ("Triangle".equals(tool)) {
-            triangle.decreaseSize(resize);
-        } else if ("Right Triangle".equals(tool)) {
-            rightTriangle.decreaseSize(resize);
-        } else if ("Pentagon".equals(tool)) {
-            pentagon.decreaseSize(resize);
-        } else if ("Hexagon".equals(tool)) {
-            hexagon.decreaseSize(resize);
-        }
+        shape.decreaseSize(resize);
         repaint();
     }
 
     public void rotateLeft() {
-        if("Rectangle".equals(tool)){
-            rectangle.setRotateAngle(rectangle.getRotateAngle() - rotateAngle);
-        } else if ("Circle".equals(tool)) {
-            circle.setRotateAngle(circle.getRotateAngle() - rotateAngle);
-        } else if ("Triangle".equals(tool)) {
-            triangle.setRotateAngle(triangle.getRotateAngle() - rotateAngle);
-        } else if ("Right Triangle".equals(tool)) {
-            rightTriangle.setRotateAngle(rightTriangle.getRotateAngle() - rotateAngle);
-        } else if ("Pentagon".equals(tool)) {
-            pentagon.setRotateAngle(pentagon.getRotateAngle() - rotateAngle);
-        } else if ("Hexagon".equals(tool)) {
-            hexagon.setRotateAngle(hexagon.getRotateAngle() - rotateAngle);
-        }
+        shape.setRotateAngle(shape.getRotateAngle() - rotateAngle);
         repaint();
     }
 
     public void rotateRight() {
-        if("Rectangle".equals(tool)){
-            rectangle.setRotateAngle(rectangle.getRotateAngle() + rotateAngle);
-        } else if ("Circle".equals(tool)) {
-            circle.setRotateAngle(circle.getRotateAngle() + rotateAngle);
-        } else if ("Triangle".equals(tool)) {
-            triangle.setRotateAngle(triangle.getRotateAngle() + rotateAngle);
-        } else if ("Right Triangle".equals(tool)) {
-            rightTriangle.setRotateAngle(rightTriangle.getRotateAngle() + rotateAngle);
-        } else if ("Pentagon".equals(tool)) {
-            pentagon.setRotateAngle(pentagon.getRotateAngle() + rotateAngle);
-        } else if ("Hexagon".equals(tool)) {
-            hexagon.setRotateAngle(hexagon.getRotateAngle() + rotateAngle);
-        }
+        shape.setRotateAngle(shape.getRotateAngle() + rotateAngle);
         repaint();
     }
     public void setFill(boolean selected) {
         fill = selected;
-        if("Rectangle".equals(tool)){
-            rectangle.setFill(selected);
-        } else if ("Circle".equals(tool)) {
-            circle.setFill(selected);
-        } else if ("Triangle".equals(tool)) {
-            triangle.setFill(selected);
-        } else if ("Right Triangle".equals(tool)) {
-            rightTriangle.setFill(selected);
-        } else if ("Pentagon".equals(tool)) {
-            pentagon.setFill(selected);
-        } else if ("Hexagon".equals(tool)) {
-            hexagon.setFill(selected);
+        if(shape != null){
+            shape.setFill(selected);
         }
         repaint();
     }
@@ -363,18 +226,8 @@ public class DrawArea extends JComponent {
     }
     public void cancel() {
         tempG.drawLine(0,0,0,0);
-        if("Rectangle".equals(tool)){
-            rectangle.setRotateAngle(0);
-        } else if ("Circle".equals(tool)){
-            circle.setRotateAngle(0);
-        } else if("Triangle".equals(tool)){
-            triangle.setRotateAngle(0);
-        } else if ("Right Triangle".equals(tool)) {
-            rightTriangle.setRotateAngle(0);
-        } else if ("Pentagon".equals(tool)) {
-            pentagon.setRotateAngle(0);
-        } else if ("Hexagon".equals(tool)) {
-            hexagon.setRotateAngle(0);
+        if(shape != null) {
+            shape.setRotateAngle(0);
         }
         rotateResizeMode = false;
         drawn = true;
