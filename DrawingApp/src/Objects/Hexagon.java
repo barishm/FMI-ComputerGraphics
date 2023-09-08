@@ -75,13 +75,11 @@ public class Hexagon extends Shape {
     }
 
     public void increaseSize(int resize) {
-        double scaleFactor = 1 + (resize / 100.0); // Convert resize percentage to a scale factor
+        double scaleFactor = 1 + (resize / 100.0);
 
-        // Calculate the center of the hexagon
         double centerX = (Ax + Bx + Cx + Dx + Ex + Fx) / 6.0;
         double centerY = (Ay + By + Cy + Dy + Ey + Fy) / 6.0;
 
-        // Update the positions of the vertices based on the scale factor and the center
         Ax = (int) ((Ax - centerX) * scaleFactor + centerX);
         Ay = (int) ((Ay - centerY) * scaleFactor + centerY);
         Bx = (int) ((Bx - centerX) * scaleFactor + centerX);
@@ -97,13 +95,12 @@ public class Hexagon extends Shape {
     }
 
     public void decreaseSize(int resize) {
-        double scaleFactor = 1 - (resize / 100.0); // Convert resize percentage to a scale factor
+        double scaleFactor = 1 - (resize / 100.0);
 
         // Calculate the center of the hexagon
         double centerX = (Ax + Bx + Cx + Dx + Ex + Fx) / 6.0;
         double centerY = (Ay + By + Cy + Dy + Ey + Fy) / 6.0;
 
-        // Update the positions of the vertices based on the scale factor and the center
         Ax = (int) ((Ax - centerX) * scaleFactor + centerX);
         Ay = (int) ((Ay - centerY) * scaleFactor + centerY);
         Bx = (int) ((Bx - centerX) * scaleFactor + centerX);

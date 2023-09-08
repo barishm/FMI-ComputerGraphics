@@ -19,6 +19,8 @@ public class ShapeFactory {
             return new Pentagon();
         } else if (shapeType.equalsIgnoreCase("HEXAGON")) {
             return new Hexagon();
+        } else if (shapeType.equalsIgnoreCase("ZAD")) {
+            return new Zad0();
         }
 
         return null;

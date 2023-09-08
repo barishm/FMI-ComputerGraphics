@@ -16,7 +16,7 @@ public class DrawArea extends JComponent {
     private Image image;
     private Graphics2D g2;
     private Graphics2D tempG;
-    private int currentX, currentY, oldX, oldY,stroke = 2;
+    private int currentX, currentY, oldX, oldY,stroke = 4;
     private String tool = "Pen";
     private Color color = Color.BLACK;
     private boolean fill = false;
@@ -167,6 +167,8 @@ public class DrawArea extends JComponent {
         } else if ("Pentagon".equals(tool)) {
             shape = shapeFactory.getShape(tool);
         } else if ("Hexagon".equals(tool)) {
+            shape = shapeFactory.getShape(tool);
+        } else if ("Zad".equals(tool)) {
             shape = shapeFactory.getShape(tool);
         }
         if(shape != null){

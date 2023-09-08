@@ -143,7 +143,7 @@ public class DrawingApp {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        strokeSlider = new JSlider(0,30,2);
+        strokeSlider = new JSlider(0,30,4);
         strokeSlider.setPaintTicks(true);
         strokeSlider.setMinorTickSpacing(2);
         strokeSlider.setPaintTrack(true);
