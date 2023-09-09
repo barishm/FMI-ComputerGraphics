@@ -3,23 +3,19 @@ package Objects;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class Zad3 extends Shape{
+public class Zad7 extends Shape{
     private double Ax;
     private double Ay;
     private double Bx;
     private double By;
-    private double topX;
-    private double topY;
-    private double botX;
-    private double botY;
-    private double topLeftX;
-    private double topLeftY;
+    private double rightX;
+    private double rightY;
+    private double leftX;
+    private double leftY;
     private double topRightX;
     private double topRightY;
     private double botLeftX;
     private double botLeftY;
-    private double botRightX;
-    private double botRightY;
     private double width;
     private double height;
     private double rotateAngle = 0;
@@ -30,10 +26,9 @@ public class Zad3 extends Shape{
 
         graphics2D.rotate(Math.toRadians(rotateAngle), Ax + width / 2, Ay + height / 2);
 
-        graphics2D.drawLine((int) topLeftX, (int) topLeftY, (int) botRightX, (int) botRightY);
-        graphics2D.drawLine((int) topRightX, (int) topRightY, (int) botLeftX, (int) botLeftY);
+        graphics2D.drawLine((int) topRightX, (int) topRightY, (int) leftX, (int) leftY);
+        graphics2D.drawLine((int) rightX, (int) rightY, (int) botLeftX, (int) botLeftY);
 
-        graphics2D.drawLine((int) topX, (int) topY, (int) botX, (int) botY);
         if(fill){
             graphics2D.fill(e);
         }else {
@@ -80,14 +75,12 @@ public class Zad3 extends Shape{
         double a = width / 2;
         double b = height / 2;
 
-        topX = h;
-        topY = k - b;
+        leftX = Ax;
+        leftY = k;
 
-        botX = h;
-        botY = k + b;
+        rightX = Bx;
+        rightY = k;
 
-        topLeftX = h + a * Math.cos(5 * Math.PI / 4);
-        topLeftY = k + b * Math.sin(5 * Math.PI / 4);
 
         topRightX = h + a * Math.cos(7 * Math.PI / 4);
         topRightY = k + b * Math.sin(7 * Math.PI / 4);
@@ -95,8 +88,6 @@ public class Zad3 extends Shape{
         botLeftX = h + a * Math.cos(3 * Math.PI / 4);
         botLeftY = k + b * Math.sin(3 * Math.PI / 4);
 
-        botRightX = h + a * Math.cos(Math.PI / 4);
-        botRightY = k + b * Math.sin(Math.PI / 4);
 
     }
 

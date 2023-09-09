@@ -3,7 +3,7 @@ package Objects;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class Zad3 extends Shape{
+public class Zad5 extends Shape{
     private double Ax;
     private double Ay;
     private double Bx;
@@ -12,6 +12,10 @@ public class Zad3 extends Shape{
     private double topY;
     private double botX;
     private double botY;
+    private double rightX;
+    private double rightY;
+    private double leftX;
+    private double leftY;
     private double topLeftX;
     private double topLeftY;
     private double topRightX;
@@ -30,8 +34,9 @@ public class Zad3 extends Shape{
 
         graphics2D.rotate(Math.toRadians(rotateAngle), Ax + width / 2, Ay + height / 2);
 
-        graphics2D.drawLine((int) topLeftX, (int) topLeftY, (int) botRightX, (int) botRightY);
-        graphics2D.drawLine((int) topRightX, (int) topRightY, (int) botLeftX, (int) botLeftY);
+        graphics2D.drawLine((int) topLeftX, (int) topLeftY, (int) topRightX, (int) topRightY);
+        graphics2D.drawLine((int) botRightX, (int) botRightY, (int) botLeftX, (int) botLeftY);
+        graphics2D.drawLine((int) leftX, (int) leftY, (int) rightX, (int) rightY);
 
         graphics2D.drawLine((int) topX, (int) topY, (int) botX, (int) botY);
         if(fill){
@@ -79,6 +84,12 @@ public class Zad3 extends Shape{
 
         double a = width / 2;
         double b = height / 2;
+
+        leftX = Ax;
+        leftY = k;
+
+        rightX = Bx;
+        rightY = k;
 
         topX = h;
         topY = k - b;

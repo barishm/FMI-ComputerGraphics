@@ -17,7 +17,7 @@ public class DrawingApp {
         new DrawingApp().show();
     }
 
-    JButton clearBtn, saveBtn, applyBtn, cancelBtn,sizePlusBtn,sizeMinusBtn,rBtn,lBtn, blackBtn, blueBtn, greenBtn, redBtn, customBtn, uploadBtn;
+    JButton clearBtn, saveBtn, applyBtn, cancelBtn,sizePlusBtn,sizeMinusBtn,rBtn,lBtn, blackBtn, blueBtn, greenBtn, redBtn, customBtn;
     JRadioButton fillBn,penBn,lineBn,circleBn,triangleBn, rightTriangleBn, rectBn, pentagonBn, hexagonBn, zadBn;
     JSlider strokeSlider, opacitySlider;
     JColorChooser jColorChooser;
@@ -143,7 +143,7 @@ public class DrawingApp {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        strokeSlider = new JSlider(0,30,4);
+        strokeSlider = new JSlider(0,30,2);
         strokeSlider.setPaintTicks(true);
         strokeSlider.setMinorTickSpacing(2);
         strokeSlider.setPaintTrack(true);
@@ -240,11 +240,8 @@ public class DrawingApp {
         clearBtn.addActionListener(actionListener);
         saveBtn = new JButton("Save");
         saveBtn.addActionListener(actionListener);
-        uploadBtn = new JButton("Upload");
-        uploadBtn.addActionListener(actionListener);
 
 
-        topPanel.add(uploadBtn);
         topPanel.add(saveBtn);
         bottomPanel.add(clearBtn);
 

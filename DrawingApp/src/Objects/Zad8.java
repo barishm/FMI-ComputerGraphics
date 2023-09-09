@@ -3,15 +3,11 @@ package Objects;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class Zad3 extends Shape{
+public class Zad8 extends Shape{
     private double Ax;
     private double Ay;
     private double Bx;
     private double By;
-    private double topX;
-    private double topY;
-    private double botX;
-    private double botY;
     private double topLeftX;
     private double topLeftY;
     private double topRightX;
@@ -33,7 +29,6 @@ public class Zad3 extends Shape{
         graphics2D.drawLine((int) topLeftX, (int) topLeftY, (int) botRightX, (int) botRightY);
         graphics2D.drawLine((int) topRightX, (int) topRightY, (int) botLeftX, (int) botLeftY);
 
-        graphics2D.drawLine((int) topX, (int) topY, (int) botX, (int) botY);
         if(fill){
             graphics2D.fill(e);
         }else {
@@ -79,12 +74,6 @@ public class Zad3 extends Shape{
 
         double a = width / 2;
         double b = height / 2;
-
-        topX = h;
-        topY = k - b;
-
-        botX = h;
-        botY = k + b;
 
         topLeftX = h + a * Math.cos(5 * Math.PI / 4);
         topLeftY = k + b * Math.sin(5 * Math.PI / 4);

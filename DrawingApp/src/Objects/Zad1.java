@@ -40,8 +40,10 @@ public class Zad1 extends Shape{
 
     }
     public void move(int currentX, int currentY) {
-        double deltaX = currentX - Ax;
-        double deltaY = currentY - Ay;
+        double centerX = Ax + (Bx - Ax) / 2.0;
+        double centerY = Ay + (By - Ay) / 2.0;
+        double deltaX = currentX - centerX;
+        double deltaY = currentY - centerY;
 
         Ax += deltaX;
         Ay += deltaY;
