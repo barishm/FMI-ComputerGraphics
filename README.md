@@ -1,6 +1,6 @@
 # Drawing App  
 
-SimplePaint is a basic drawing application developed in Java using Java AWT and Java Swing. It provides a simple and low-level interface for users to create drawings, making it a beginner-friendly tool.  
+Drawing App is a basic drawing application developed in Java using Java AWT and Java Swing. It provides a simple and low-level interface for users to create drawings, making it a beginner-friendly tool.  
 
 
 ## Features  
