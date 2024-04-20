@@ -25,4 +25,7 @@ Java AWT: Used for creating the basic graphical user interface.
 Java Swing: Utilized for implementing advanced GUI components and event handling.  
 
 ## Demo
-Check out the demo video on Youtube: https://www.youtube.com/watch?v=q_UWaY5h714
+
+![Demo 1](demo/demo1.gif) ![Demo 2](demo/demo2.gif)
+
+![Demo 3](demo/demo3.gif) ![Demo 4](demo/demo4.gif)
