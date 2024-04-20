@@ -26,6 +26,6 @@ Java Swing: Utilized for implementing advanced GUI components and event handling
 
 ## Demo
 
-![Demo 1](demo/demo1.gif) ![Demo 2](demo/demo2.gif)
-
-![Demo 3](demo/demo3.gif) ![Demo 4](demo/demo4.gif)
+| <img src="demo/demo1.gif" width="400" height="300"> | <img src="demo/demo2.gif" width="400" height="300"> |
+| --- | --- |
+| <img src="demo/demo3.gif" width="400" height="300"> | <img src="demo/demo4.gif" width="400" height="300"> |
